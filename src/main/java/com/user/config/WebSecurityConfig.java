@@ -1,7 +1,5 @@
 package com.user.config;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,14 +8,27 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import org.springframework.beans.factory.annotation.Value;
 
-@Slf4j
+import java.util.logging.Logger;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+  @Value("${ss.username}")
+  private String username;
+  @Value("${ss.password}")
+  private String password;
+  @Value("${ss.password_}")
+  private String password_;
+  @Value("${ss.username_}")
+  private String username_;
+
   private PropertiesConfigurator propertiesConfigurator;
   private String user;
+
+  final Logger LOG = Logger.getLogger("WebSecurityConfig");
 
   public WebSecurityConfig() {
   }
@@ -37,10 +48,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    LOG.severe("username_: "+username_);
+    LOG.severe("password_: "+password_);
     auth
         .inMemoryAuthentication()
-        .withUser("user").password("{noop}1234").roles("USER")
+        .withUser(username).password("{noop}"+password).roles("USER")
         .and()
-        .withUser("admin").password("{noop}password").roles("ADMIN");
+        .withUser(username_).password("{noop}"+password_).roles("ADMIN");
   }
 }
