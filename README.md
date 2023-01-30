@@ -68,3 +68,6 @@ curl --location -g --request DELETE 'http://localhost:8080/admin/users/{id}' \
 Generar un servicio POST que consultar a una API externa y que deber considerar la recepcion de un parametro cifrado.
 curl --location --request GET 'http://localhost:8080/api' \
 --header 'Content-Type: application/json' \
+
+SCRIPT DE BASE DE DATOS:
+new_user_users.txt
